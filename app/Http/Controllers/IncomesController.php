@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Incomes;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class IncomesController extends Controller
 {
@@ -12,9 +13,9 @@ class IncomesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        return $request->user()->incomes;
     }
 
     /**
@@ -35,7 +36,22 @@ class IncomesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = [
+            'name' => 'required|string',
+            'amount' => 'required|numeric',
+            'type' => ['required', Rule::in(['unique', 'recurrent'])],
+            'periodicity' => ['required', Rule::in(['diario', 'semanal', 'quincenal', 'mensual', 'semestral', 'anual'])],
+            'income_date' => 'required|date',
+        ];
+        $data = $request->validate($rules);
+
+        // Assign the income to the actual user
+        $user = $request->user();
+        $data['user_id'] = $user->id;
+
+        $income = Incomes::create($data);
+
+        return $income;
     }
 
     /**

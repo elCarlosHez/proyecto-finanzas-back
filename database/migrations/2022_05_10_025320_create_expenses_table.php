@@ -17,7 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->float('amount')->unsigned();
-            $table->enum('periodicity', ['semanal', 'quincenal', 'mensual', 'semestral','anual'])->nullable();
+            $table->enum('type', ["unique", "recurrent"]);
+            $table->enum('periodicity', ['diario','semanal', 'quincenal', 'mensual', 'semestral','anual'])->nullable();
             $table->timestamp('expense_date');
             $table->foreignId('user_id');
             $table->timestamps();
