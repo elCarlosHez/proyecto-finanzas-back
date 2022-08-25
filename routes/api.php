@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\IncomesController;
+use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/expense', [IncomesController::class, 'index']);
     Route::post('/income', [IncomesController::class, 'store']);
     Route::get('/income', [IncomesController::class, 'index']);
+    Route::get('/taxes', [TaxesController::class, 'index']);
+    Route::get('/deductions', [TaxesController::class, 'getDeductions']);
+    Route::post('/deductions', [TaxesController::class, 'updateDeductions']);
+    Route::post('/onboarding', [UserController::class, 'updateUserData']);
 });

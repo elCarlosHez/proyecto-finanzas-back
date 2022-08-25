@@ -13,3 +13,4 @@ yarn-error.log
 /.idea
 /.vscode
 firebase
+firebase_keys.json

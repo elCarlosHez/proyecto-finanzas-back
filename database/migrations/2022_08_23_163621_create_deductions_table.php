@@ -13,12 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('deductions', function (Blueprint $table) {
             $table->id();
-            $table->string('firebaseUID');
-            $table->string('name')->nullable();
-            $table->float('salary')->nullable();
-            $table->rememberToken();
+            $table->foreignId('user_id');
+            $table->float('medical')->unsigned()->default(0);
+            $table->float('retirement')->unsigned()->default(0);
+            $table->float('donation')->unsigned()->default(0);
+            $table->float('education')->unsigned()->default(0);
             $table->timestamps();
         });
     }
@@ -30,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('deductions');
     }
 };

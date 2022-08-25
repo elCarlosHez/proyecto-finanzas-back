@@ -30,10 +30,35 @@ class UserController extends Controller
 
         // Retrieve the user model linked with the Firebase UID
         $user = User::firstOrCreate(['firebaseUID' => "$uid"]);
+        $user->deduction()->firstOrCreate();
 
         // Generate user token
         $token = $user->createToken('User login token');
 
         return ['token' => $token->plainTextToken];
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateUserData(Request $request)
+    {
+        $rules = [
+            'name' => 'required|string',
+            'salary' => 'required|numeric',
+        ];
+        $data = $request->validate($rules);
+
+        // Update the data of the actual user
+        $user = $request->user();
+
+        $user->name = $data['name'];
+        $user->salary = $data['salary'];
+        $user->save();
+
+        return $user;
     }
 }

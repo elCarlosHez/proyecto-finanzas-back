@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('ISR', function (Blueprint $table) {
             $table->id();
-            $table->string('firebaseUID');
-            $table->string('name')->nullable();
-            $table->float('salary')->nullable();
-            $table->rememberToken();
+            $table->bigInteger('lower_limit');
+            $table->bigInteger('higher_limit')->nullable();
+            $table->bigInteger('fixed_fee');
+            $table->float('percentage');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('ISR');
     }
 };

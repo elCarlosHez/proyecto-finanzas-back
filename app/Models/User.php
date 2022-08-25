@@ -19,6 +19,8 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'firebaseUID',
+        'name',
+        'salary',
     ];
 
     /**
@@ -36,5 +38,13 @@ class User extends Authenticatable
     public function incomes()
     {
         return $this->hasMany(Incomes::class);
+    }
+
+    /**
+     * Get all the incomes of the user.
+     */
+    public function deduction()
+    {
+        return $this->hasOne(Deduction::class);
     }
 }
