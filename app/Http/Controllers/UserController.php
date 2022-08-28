@@ -61,4 +61,18 @@ class UserController extends Controller
 
         return $user;
     }
+
+    public function migrateUser(Request $request)
+    {
+        $rules = [
+            'firebaseUID' => 'required|string',
+        ];
+        $data = $request->validate($rules);
+        $user = $request->user();
+
+        $user->firebaseUID = $data['firebaseUID'];
+        $user->save();
+
+        return $user;
+    }
 }
