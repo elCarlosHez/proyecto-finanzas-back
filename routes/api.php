@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ExpensesController;
 use App\Http\Controllers\IncomesController;
+use App\Http\Controllers\InvestmentController;
 use App\Http\Controllers\TaxesController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -33,5 +34,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/taxes', [TaxesController::class, 'index']);
     Route::get('/deductions', [TaxesController::class, 'getDeductions']);
     Route::post('/deductions', [TaxesController::class, 'updateDeductions']);
+    Route::post('/investment', [InvestmentController::class, 'getAnInvestment']);
     Route::post('/onboarding', [UserController::class, 'updateUserData']);
 });
