@@ -27,8 +27,9 @@ Route::post('/get-token', [UserController::class, 'getUsertoken']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/migrate-user', [UserController::class, 'migrateUser']);
-    Route::post('/expense', [IncomesController::class, 'store']);
-    Route::get('/expense', [IncomesController::class, 'index']);
+    Route::post('/expense', [ExpensesController::class, 'store']);
+    Route::get('/expense', [ExpensesController::class, 'index']);
+    Route::get('/expense/resume', [ExpensesController::class, 'getResume']);
     Route::post('/income', [IncomesController::class, 'store']);
     Route::get('/income', [IncomesController::class, 'index']);
     Route::get('/taxes', [TaxesController::class, 'index']);

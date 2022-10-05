@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expenses;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
@@ -15,7 +16,21 @@ class ExpensesController extends Controller
      */
     public function index(Request $request)
     {
-        return $request->user()->expenses;
+        $result = Expenses::where('user_id', $request->user()->id)
+            ->orderBy('expense_date', 'desc')
+            ->get()
+            ->groupBy(function (Expenses $item) {
+                return Carbon::parse($item->expense_date)->locale('es_ES')->format('F Y');
+            });
+
+        return json_encode($result);
+    }
+
+    public function getResume(Request $request)
+    {
+        $expensesOfTheMonth = $request->user()->expenses()->whereMonth('expense_date', Carbon::now()->month)->sum('amount');
+        $resume = $request->user()->salary - $expensesOfTheMonth;
+        return $resume;
     }
 
     /**
@@ -41,9 +56,10 @@ class ExpensesController extends Controller
             'amount' => 'required|numeric',
             'type' => ['required', Rule::in(['unique', 'recurrent'])],
             'periodicity' => ['required', Rule::in(['diario', 'semanal', 'quincenal', 'mensual', 'semestral', 'anual'])],
-            'expense_date' => 'required|date',
+            'expense_date' => 'required',
         ];
         $data = $request->validate($rules);
+        $data['expense_date'] = Carbon::parse($data['expense_date']);
 
         // Assign the income to the actual user
         $user = $request->user();
