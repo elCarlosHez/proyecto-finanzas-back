@@ -24,6 +24,9 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::post('/get-token', [UserController::class, 'getUsertoken']);
+Route::get('/health', function () {
+    return json_encode(['message' => 'Server is up']);
+});
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/migrate-user', [UserController::class, 'migrateUser']);
