@@ -38,6 +38,15 @@ class UserController extends Controller
         return ['token' => $token->plainTextToken];
     }
 
+    public function getUser(Request $request)
+    {
+        $user = $request->user();
+
+        return json_encode([
+            "name" => $user->name,
+            "salary" => $user->salary
+        ]);
+    }
     /**
      * Store a newly created resource in storage.
      *

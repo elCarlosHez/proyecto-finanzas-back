@@ -29,6 +29,8 @@ Route::get('/health', function () {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user', [UserController::class, 'getUser']);
+    Route::post('/user', [UserController::class, 'updateUserData']);
     Route::post('/migrate-user', [UserController::class, 'migrateUser']);
     Route::post('/expense', [ExpensesController::class, 'store']);
     Route::get('/expense', [ExpensesController::class, 'index']);
